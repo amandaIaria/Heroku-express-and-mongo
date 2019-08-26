@@ -1,6 +1,7 @@
 const express = require('express');
 const multer = require('multer');
 const multipart = multer();
+const cors = require('cors');
 
 const webpack = require('webpack');
 const webpackDevMiddleware = require('webpack-dev-middleware');
@@ -38,13 +39,8 @@ if (devServerEnabled) {
 
 app.use(express.static('./public'));
 
-//testing
-app.get('/', function (req, res) {
-  res.send('Hello World!');
-})
-
 //API
-app.post('/api/:type', multipart.any(), function (req, res) {
+app.post('/api/:type', cors(), multipart.any(), function (req, res) {
   if (req.params.type === 'contact') {
     const c = contact(req.body);
 
@@ -61,18 +57,19 @@ app.post('/api/:type', multipart.any(), function (req, res) {
 });
 
 //JSON
-app.get('/JSON/:json', function (req, res) {
-  console.log(req, res);
+app.get('/JSON/:json', cors(), function (req, res) {
 
+  const copyBit = req.query.id != '' ? projects[req.query.id] : projects; 
   if (req.params.json === 'copy') {
     res.json(copy);
   }
   else if (req.params.json === 'projects') {
-    res.json(projects);
+    res.json(copyBit);
   }
   else {
     res.status(404).send('Something broke!');
   }
+
 });
 
 app.listen(port, () => {
