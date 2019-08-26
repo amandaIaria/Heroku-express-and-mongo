@@ -1,36 +1,59 @@
-const merge = require('webpack-merge');
 const path = require('path');
-const webpackBaseConfig = require('./webpack.base.config.js');
-const StyleLintPlugin = require('stylelint-webpack-plugin');
 
-module.exports = merge(webpackBaseConfig, {
-  module: {
-    rules: [
-      {
-        test: /(htm|html|xhtml|hbs|handlebars|php|ejs)$/,
-        loader: 'htmllint-loader',
-        exclude: /(node_modules)/,
-        query: {
-          config: path.join(__dirname, "../.htmllintrc"), // path to custom config file
-          failOnError: false,
-          failOnWarning: false,
-        },
-      },
-      {
-        enforce: "pre",
-        test: /\.js$/,
-        exclude: /node_modules/,
-        loader: "eslint-loader",
-        options: {
-          configFile:  path.join(__dirname, "../.eslintrc.json") 
-        }
-      },
-    ]
-  },
-  plugins: [
-    // new StyleLintPlugin({
-    //   configFile: './.configs/.stylelintrc',
-    //   context: 'src'
-    // })
-  ]
-});
+module.exports = {
+    mode: 'development',
+    devServer: {
+        contentBase: path.join(__dirname, 'public'),
+        port: 8080,
+        host: `localhost`,
+    },
+    entry: {
+        app: [
+            './src/app.js'
+        ]
+    },
+    output: {
+        path: path.join(__dirname, 'dist'),
+        publicPath: '/js/',
+        filename: `[name].js`,
+    },
+    module: {
+        rules: [
+          {
+            enforce: "pre",
+            test: /\.js$/,
+            exclude: /node_modules/,
+            loader: "eslint-loader",
+            options: {
+              configFile:  path.join(__dirname, "../.eslintrc.json") 
+            }
+          },
+            {
+                test: /\.js$/,
+                exclude: /(node_modules)/,
+                use: [
+                    {
+                        loader: 'babel-loader',
+                        options: {
+                            presets: [
+                                [
+                                    '@babel/preset-env',
+                                    {
+                                        'modules': 'false',//commonjs,amd,umd,systemjs,auto
+                                        'useBuiltIns': 'usage',
+                                        'targets': '> 0.25%, not dead',
+                                        'corejs': 3
+                                    }
+                                ]
+                            ]
+                        }
+                    }
+                ]
+            }
+        ]
+    },
+    resolve: {
+        alias: {}
+    },
+    plugins: [],
+};

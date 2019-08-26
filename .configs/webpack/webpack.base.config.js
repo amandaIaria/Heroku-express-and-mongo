@@ -7,8 +7,7 @@ const webpack = require('webpack');
 module.exports = {
     entry: [
       '@babel/polyfill',
-      path.join(__dirname, '../../src/assets/app.js'),
-      path.join(__dirname, '../../src/assets/style/app.scss')
+      path.join(__dirname, '../../src/app.js'),
     ],
     module: {
       rules: [
@@ -23,93 +22,11 @@ module.exports = {
               ]
             }
           }
-        },
-        {
-          test: /\.svg$/,
-          loader: 'svg-url-loader',
-          options: {
-            noquotes: true,
-            name: '[name].[ext]',
-            outputPath: '/assets/img/svg/'
-          }
-        },
-        
-        {
-          test: /\.(woff|woff2|eot|ttf|otf)$/,
-          use: [{
-            loader: 'file-loader',
-            options: {
-              includePaths: ['./node_modules'],
-              name: '[name].[ext]',
-              publicPath: '../../assets/fonts/',
-              outputPath: './assets/fonts/',
-            }
-          }]
-        },
-        {
-          test: /\.(png|jpg|gif)$/,
-          use: [
-            {
-              loader: 'file-loader',
-              options: {
-                name: '[name].[ext]',
-                outputPath: './assets/img/'
-              }
-            }
-          ]
-        },
-        {
-          test: /\.scss$/,
-          use: [
-            { 
-              loader: 'style-loader',
-              options: {
-                sourceMap: true
-              }
-            },
-            MiniCssExtractPlugin.loader,
-            { 
-              loader: 'css-loader',
-              options: {
-                sourceMap: true,
-              }
-            },
-            {
-              loader: 'postcss-loader',
-              options: {
-                plugins: () => [autoprefixer()]
-              }
-            },
-            {
-              loader: 'sass-loader',
-              options: {
-                includePaths: ['./node_modules'],
-                config: {
-                  path: './.configs',
-                  sourceMap: true
-                }
-              }
-            }
-          ]
-        },
-        {
-          test: /\.(html)$/,
-          use: [
-            {
-            loader: 'html-loader',
-            options: {
-              interpolate: true
-            }
-          }],
         }
       ]
     },
     resolve: {
       alias: {
-        '@components': path.resolve(__dirname, '../src/components'),
-        '@style': path.resolve(__dirname, '../src/assets/style'),
-        '@fonts': path.resolve(__dirname, '../src/assets/fonts'),
-        '@img': path.resolve(__dirname, '../src/assets/img'),
         '@js': path.resolve(__dirname, '../src/assets/scripts'),
         '@': path.resolve(__dirname, '../src'),
       },
@@ -127,101 +44,8 @@ module.exports = {
         },
       }),
       new webpack.ProvidePlugin({
-        $: 'jquery',
-        jQuery: 'jquery',
-        'window.$': 'jquery',
-        'window.jQuery': 'jquery',
-        Waves: 'node-waves',
         _: 'underscore',
         Promise: 'es6-promise',
-      }),
-      new HtmlWebpackPlugin({
-        template: './src/components/pages/template.html',
-        filename: 'index.html',
-        title: 'Design Library',
-        inject: true,
-        minify: {
-          removeComments: true,
-          collapseWhitespace: true,
-          interpolate: true,
-        }
-      }),
-      new HtmlWebpackPlugin({
-        template: './src/components/pages/textarea.html',
-        filename: 'textarea.html',
-        title: 'Textarea',
-        inject: true,
-        minify: {
-          removeComments: true,
-          collapseWhitespace: true,
-          interpolate: true,
-        }
-      }),
-      new HtmlWebpackPlugin({
-        template: './src/components/pages/textbox.html',
-        filename: 'textbox.html',
-        title: 'Textbox',
-        inject: true,
-        minify: {
-          removeComments: true,
-          collapseWhitespace: true,
-          interpolate: true,
-        }
-      }),
-      new HtmlWebpackPlugin({
-        template: './src/components/pages/buttons.html',
-        filename: 'buttons.html',
-        title: 'Buttons',
-        inject: true,
-        minify: {
-          removeComments: true,
-          collapseWhitespace: true,
-          interpolate: true,
-        }
-      }),
-      new HtmlWebpackPlugin({
-        template: './src/components/pages/switch.html',
-        filename: 'switch.html',
-        title: 'Switch',
-        inject: true,
-        minify: {
-          removeComments: true,
-          collapseWhitespace: true,
-          interpolate: true,
-        }
-      }),
-      new HtmlWebpackPlugin({
-        template: './src/components/pages/navs.html',
-        filename: 'navs.html',
-        title: 'Navs',
-        inject: true,
-        minify: {
-          removeComments: true,
-          collapseWhitespace: true,
-          interpolate: true,
-        }
-      }),
-      new HtmlWebpackPlugin({
-        template: './src/components/pages/helpers.html',
-        filename: 'helpers.html',
-        title: 'Helpers',
-        inject: true,
-        minify: {
-          removeComments: true,
-          collapseWhitespace: true,
-          interpolate: true,
-        }
-      }),
-      new HtmlWebpackPlugin({
-        template: './src/components/pages/animations.html',
-        filename: 'animations.html',
-        title: 'Animations',
-        inject: true,
-        minify: {
-          removeComments: true,
-          collapseWhitespace: true,
-          interpolate: true,
-        }
       })
     ]
 };
