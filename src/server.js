@@ -42,7 +42,7 @@ if (devServerEnabled) {
 
 app.use(express.static('./public'));
 app.use(cors({
-  origin: 'http://localhost:8081'
+  origin: process.env.ORIGIN
 }));
 app.use(require("body-parser").json());
 
