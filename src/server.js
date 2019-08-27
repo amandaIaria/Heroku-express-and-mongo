@@ -50,7 +50,7 @@ app.use(require("body-parser").json());
 app.post('/api/:type', function (req, res) {
   console.log('post', req.params.type, req.body, process.env.EMAIL);
   if (req.params.type === 'contact') {
-    contact.sendMessage(req.body, res, process.env.EMAIL);
+    contact.sendMessage(req.body, res, process.env.EMAIL, process.env.NOREPLY);
   }
   else {
     res.status(500).send('Something broke!');
@@ -67,7 +67,7 @@ app.get('/JSON/:json', function (req, res) {
     res.json(copyBit);
   }
   else {
-    res.status(404).send('Something broke!');
+    res.status(500).send('Something broke!');
   }
 });
 

@@ -3,22 +3,34 @@
  */
 
 module.exports = {
-  sendMessage: function (body, res, email) {
+  sendMessage: function (body, res, email, noreply) {
     const sendmail = require('sendmail')();
   
     sendmail({
-      from: 'no-reply@yourdomain.com',
+      from: noreply,
       to: email,
-      subject: 'test sendmail',
-      html: body.message,
+      subject: 'Someone is trying to contact you - ' + body.subject,
+      html: "You've recieced a message.<br>" + body.message + "<br>From: "+ body.from,
     }, 
     function(err, reply) {
-      console.log(err, reply);
       if(err == null) {
-        res.status(200).send('OK');
+        sendmail({
+          from: noreply,
+          to: body.from,
+          subject: 'Thanks for getting in touch with me',
+          html: "Thanks for getting in touch with me. I'll respond when I can. <br> -Amanda <br>Your Message:<br> " + body.message,
+        }, 
+        function(err, reply) {
+          if(err == null) {
+            res.sendStatus(200);
+          }
+          else {
+            res.sendStatus(404);
+          }
+        });
       }
       else {
-        res.status(404).send('Something broke!');
+        res.status(500).send('Something broke!');
       }
     });
   }
