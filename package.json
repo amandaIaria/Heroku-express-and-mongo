@@ -18,7 +18,8 @@
     "prod-webpack": " webpack --mode production --config ./.configs/webpack/webpack.production.config.js",
     "local-build-server": "npm run build && npm run start",
     "start:client": "npm run dev",
-    "start": "babel-watch ./src/server.js"
+    "start-dev": "NODE_ENV=dev babel-watch ./src/server.js",
+    "start": "NODE_ENV=prod babel-watch ./src/server.js"
   },
   "keywords": [
     "template"
@@ -113,7 +114,9 @@
     "@material/ripple": "^3.1.0",
     "@material/tab-bar": "^3.1.0",
     "cors": "^2.8.5",
+    "dotenv": "^8.1.0",
     "ejs-loader": "^0.3.3",
-    "es6-promise": "^4.2.8"
+    "es6-promise": "^4.2.8",
+    "sendmail": "^1.6.1"
   }
 }

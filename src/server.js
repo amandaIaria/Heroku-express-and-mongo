@@ -9,14 +9,17 @@ const webpackHotMiddleware = require('webpack-hot-middleware');
 const config = require('../.configs/webpack/webpack.dev.config.js');
 
 const app = express();
-const port = 8080;
 
-const devServerEnabled = true;
+let devServerEnabled;
 
 const copy = require('./JSON/copy.json');
 const projects = require('./JSON/project.json');
+const contact = require('./api/contact');
 
-const contact = require('./api/contact.js');
+if (process.env.NODE_ENV !== 'prod') {
+  require('dotenv').config();
+  devServerEnabled = true;
+}
 
 if (devServerEnabled) {
     //reload=true:Enable auto reloading when changing JS files or content
@@ -38,18 +41,16 @@ if (devServerEnabled) {
 }
 
 app.use(express.static('./public'));
+app.use(cors({
+  origin: 'http://localhost:8081'
+}));
+app.use(require("body-parser").json());
 
 //API
-app.post('/api/:type', cors(), multipart.any(), function (req, res) {
+app.post('/api/:type', function (req, res) {
+  console.log('post', req.params.type, req.body, process.env.EMAIL);
   if (req.params.type === 'contact') {
-    const c = contact(req.body);
-
-    if(c.pass) {
-      res.json(c.response);
-    }
-    else {
-      res.status(404).send('Something broke!');
-    }
+    contact.sendMessage(req.body, res, process.env.EMAIL);
   }
   else {
     res.status(500).send('Something broke!');
@@ -57,8 +58,7 @@ app.post('/api/:type', cors(), multipart.any(), function (req, res) {
 });
 
 //JSON
-app.get('/JSON/:json', cors(), function (req, res) {
-
+app.get('/JSON/:json', function (req, res) {
   const copyBit = req.query.id != '' ? projects[req.query.id] : projects; 
   if (req.params.json === 'copy') {
     res.json(copy);
@@ -69,9 +69,8 @@ app.get('/JSON/:json', cors(), function (req, res) {
   else {
     res.status(404).send('Something broke!');
   }
-
 });
 
-app.listen(port, () => {
-    console.log('Server started on port:' + port);
+app.listen(process.env.PORT, () => {
+  console.log('Server started on port:' + process.env.PORT);
 });

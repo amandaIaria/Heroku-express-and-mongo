@@ -37,12 +37,6 @@ module.exports = {
       extensions: ['.js'],
     },
     plugins: [
-      new MiniCssExtractPlugin({
-        filename:  './assets/style/[name].bundle.[contenthash:8].css',  //argv.mode !== 'production' ? './assets/style/[name].bundle.css' : './assets/style/[name].bundle.[contenthash:8].css', 
-        discardComments: {
-          removeAll: true,
-        },
-      }),
       new webpack.ProvidePlugin({
         _: 'underscore',
         Promise: 'es6-promise',
