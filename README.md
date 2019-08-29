@@ -1,2 +1,1 @@
-# heroku-backend
-Backend stuff for my portfolio
+An experiment with heroku, angular, express, and mongodb 
