@@ -59,7 +59,7 @@
     "copy-webpack-plugin": "^5.0.4",
     "core-js": "^3.2.1",
     "css-loader": "^3.1.0",
-    "ejs-loader": "^0.3.3",
+    "ejs-loader": "^0.5.0",
     "es6-promise": "^4.2.8",
     "eslint": "^5.16.0",
     "eslint-config-airbnb-base": "^13.2.0",
@@ -69,7 +69,7 @@
     "extract-loader": "^3.1.0",
     "file-loader": "^4.1.0",
     "html-loader": "^0.5.5",
-    "html-webpack-plugin": "^3.2.0",
+    "html-webpack-plugin": "^5.5.1",
     "htmllint-loader": "^2.1.4",
     "jsdoc": "^3.6.3",
     "jsdom": "^15.1.1",
@@ -115,7 +115,7 @@
     "@material/tab-bar": "^3.1.0",
     "cors": "^2.8.5",
     "dotenv": "^8.1.0",
-    "ejs-loader": "^0.3.3",
+    "ejs-loader": "^0.5.0",
     "es6-promise": "^4.2.8",
     "sendmail": "^1.6.1"
   }
